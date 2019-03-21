@@ -1,0 +1,9 @@
+rootProject.name = 'kbech32'
+enableFeaturePreview('GRADLE_METADATA')
+
+def includeEx(String name) {
+    include name
+    project(name).projectDir = "$rootDir${name.replace(':', '/')}" as File
+}
+
+includeEx ':kbech32'
