@@ -1,22 +1,22 @@
 def pomConfig = {
     licenses {
         license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            name "The MIT License"
+            url "https://opensource.org/licenses/MIT"
             distribution "repo"
         }
     }
     developers {
         developer {
-            id "CommercioNetwork"
-            name "Commercio Network"
-            organization "Commercio Network"
-            organizationUrl "https://commercio.network"
+            id "Komputing"
+            name "Komputing"
+            organization "Komputing"
+            organizationUrl "https://github.com/komputing"
         }
     }
 
     scm {
-        url "https://github.com/Commercionetwork/KBech32.git"
+        url "https://github.com/Komputing/KBech32.git"
     }
 }
 
@@ -24,6 +24,6 @@ project.ext.configureMavenCentralMetadata = { pom ->
     def root = asNode()
     root.appendNode('name', project.name)
     root.appendNode('description', 'A Kotlint multiplatform implementation of Bech32')
-    root.appendNode('url', 'https://github.com/Commercionetwork/Bech32')
+    root.appendNode('url', 'https://github.com/Komputing/KBech32')
     root.children().last() + pomConfig
 }

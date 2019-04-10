@@ -1,4 +1,4 @@
-package kbech32
+package org.komputing.kbech32
 
 /**
  * Bech32 Kotlin implementation.
@@ -71,12 +71,16 @@ object Bech32 {
         return ret
     }
 
-    /** Encode a Bech32 string.  */
+    /**
+     * Encodes a Bech32 string.
+     */
     fun encode(bech32: Bech32Data): String {
         return encode(bech32.humanReadablePart, bech32.data)
     }
 
-    /** Encode a Bech32 string.  */
+    /**
+     * Encodes a Bech32 string.
+     */
     fun encode(humanReadablePart: String, data: ByteArray): String {
         var hrp = humanReadablePart
 
@@ -98,7 +102,9 @@ object Bech32 {
         return sb.toString()
     }
 
-    /** Decode a Bech32 string.  */
+    /**
+     * Decodes a Bech32 string.
+     */
     fun decode(str: String): Bech32Data {
         var lower = false
         var upper = false
@@ -108,7 +114,10 @@ object Bech32 {
             throw AddressFormatException.InvalidDataLength("Input too long: " + str.length)
         for (i in 0 until str.length) {
             val c = str[i]
-            if (c.toInt() < 33 || c.toInt() > 126) throw AddressFormatException.InvalidCharacter(c, i)
+            if (c.toInt() < 33 || c.toInt() > 126) throw AddressFormatException.InvalidCharacter(
+                c,
+                i
+            )
             if (c in 'a'..'z') {
                 if (upper)
                     throw AddressFormatException.InvalidCharacter(c, i)
@@ -127,11 +136,18 @@ object Bech32 {
         val values = ByteArray(dataPartLength)
         for (i in 0 until dataPartLength) {
             val c = str[i + pos + 1]
-            if (CHARSET_REV[c.toInt()].toInt() == -1) throw AddressFormatException.InvalidCharacter(c, i + pos + 1)
+            if (CHARSET_REV[c.toInt()].toInt() == -1) throw AddressFormatException.InvalidCharacter(
+                c,
+                i + pos + 1
+            )
             values[i] = CHARSET_REV[c.toInt()]
         }
         val hrp = str.substring(0, pos).toLowerCase()
-        if (!verifyChecksum(hrp, values)) throw AddressFormatException.InvalidChecksum()
+        if (!verifyChecksum(
+                hrp,
+                values
+            )
+        ) throw AddressFormatException.InvalidChecksum()
         return Bech32Data(hrp, values.copyOfRange(0, values.size - 6))
     }
 }

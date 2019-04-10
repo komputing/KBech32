@@ -25,7 +25,7 @@ def projectNeedsPlatform(project, platform) {
 }
 
 allprojects {
-    group = "org.kbech32"
+    group = "com.github.Komputing"
     version = configuredVersion
     project.ext.hostManager = new HostManager()
     
