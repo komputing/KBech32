@@ -1,4 +1,4 @@
-package kbech32
+package org.komputing.kbech32
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

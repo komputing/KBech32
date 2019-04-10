@@ -1,28 +1,18 @@
-# Kbech32
+# KBech32
+KBech32 is a Kotlin multiplatform implementation of the [Bech32](https://en.bitcoin.it/wiki/Bech32) address format.
 
-Kbech32 is a Kotlin multiplatform implementation of the [Bech32](https://en.bitcoin.it/wiki/Bech32) address format. 
+The implementation is heavily based on [Bitcoinj Bech32 implementation](https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/core/Bech32.java). 
 
 ## Downloading
-In order to use this library you have to perform the following tasks. 
-
-**1.** Include the project Maven repository inside your module's `build.gradle` file.
-
-```groovy
-repositories {
-    maven { url  "https://dl.bintray.com/commercionetwork/kbech32" }
-}
-```
-
-**2.** Declare the proper dependencies inside your module's `build.gradle`.
 ```groovy
 // Common module
 dependencies {
-    implementation "org.kbech32:kbech32:$kbech32_version"
+    implementation "org.kbech32:kbech32-common:$kbech32_version"
 }
     
 // JVM module 
 dependencies { 
-    implementation "org.kbech32:kbech32-jvm:$kbech32_version"
+    implementation "org.kbech32:kbech32:$kbech32_version"
 }
 ``` 
 
@@ -43,5 +33,4 @@ val data = Bech32Data(
 // Decode the data
 val bech32Value = "abcdef1qpzry9x8gf2tvdw0s3jn54khce6mua7lmqqqxw"
 val (humanReadablePart, data) = Bech32.decode(bech32Value)
-
 ```

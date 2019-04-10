@@ -1,3 +1,4 @@
+apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 apply from: project.rootProject.file('gradle/pom.gradle')
@@ -11,6 +12,33 @@ task stubJavadoc(type: Jar) {
 
 task stubDokka(type: Jar) {
     classifier 'kdoc'
+}
+
+def selectArtifactId(project, type, defaultName) {
+    def name = project.name
+    switch (type) {
+        case 'metadata':
+            return "$name-common"
+            break
+        case 'kotlinMultiplatform':
+            return "$name-native"
+            break
+        case 'jvm':
+            return "$name"
+            break
+        default:
+            return defaultName
+            break
+    }
+}
+
+def isAvailableForPublication(publication) {
+    def name = publication.name
+    return name in ['jvm', 'js', 'metadata', 'kotlinMultiplatform']
+}
+
+tasks.withType(AbstractPublishToMaven).all {
+    onlyIf { isAvailableForPublication(publication) }
 }
 
 publishing {
@@ -34,6 +62,16 @@ publishing {
     }
     publications.all {
         pom.withXml(configureMavenCentralMetadata)
+
+        def type = it.name
+        def id = selectArtifactId(project, type, it.artifactId)
+        it.artifactId = id
+
+        if (id.endsWith('native')) {
+            it.artifact stubJavadoc
+            it.artifact stubDokka
+            it.artifact emptyJar
+        }
     }
     kotlin.targets.all { target ->
         def publication = publishing.publications.findByName(target.name)
