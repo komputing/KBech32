@@ -10,7 +10,7 @@ import kotlin.test.fail
  *
  * Taken from [Bitcoinj Bech32 tests](https://github.com/bitcoinj/bitcoinj/blob/master/core/src/test/java/org/bitcoinj/core/Bech32Test.java)
  */
-class Bech32Test {
+class Bech32Tests {
 
     @Test
     fun valid() {

@@ -3,23 +3,42 @@ KBech32 is a Kotlin multiplatform implementation of the [Bech32](https://en.bitc
 
 The implementation is heavily based on [Bitcoinj Bech32 implementation](https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/core/Bech32.java). 
 
-## Downloading
+# Downloading
+This library is available on Jitpack: [![](https://jitpack.io/v/komputing/KBech32.svg)](https://jitpack.io/#komputing/KBech32)
+
+In order to download it, firstly include the Jitpack repository on your project `build.gradle` file:
+
 ```groovy
-// Common module
-dependencies {
-    implementation "org.kbech32:kbech32-common:$kbech32_version"
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
-    
-// JVM module 
-dependencies { 
-    implementation "org.kbech32:kbech32:$kbech32_version"
+```
+
+Then, insert the following dependency inside your module's `build.gradle` file:
+
+```groovy 
+dependencies {
+    implementation 'com.github.komputing.KBech32:core-{platform}:{version}'
 }
 ``` 
 
-Don't forget to declare a variable named `kbech32_version` equals to the latest version.  
-Or you can simply replace it with the latest version. 
+The latest version is the one published on Jitpack: 
 
-## Usage
+[![](https://jitpack.io/v/komputing/KBech32.svg)](https://jitpack.io/#komputing/KBech32)
+
+### Supported platforms
+| Platform | Usage | 
+| :------- | :---- | 
+| `common` | Common Kotlin multiplatform projects | 
+| `jvm` | Kotlin-JVM modules/projects |
+| `js` | Kotlin-JS modules/projects | 
+| `native` | Kotlin-native modules/projects |
+
+
+# Usage
 ```kotlin
 // Encode given a human readable part and a byte array
 val encoded = Bech32.encode(humanReadablePart = "bc", data = byteArrayOf(1, 2 ,3))
