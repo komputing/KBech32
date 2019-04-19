@@ -11,6 +11,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_gradle_version"
+        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
     }
 }
 
@@ -18,14 +19,23 @@ ext.configuredVersion = project.hasProperty("releaseVersion") ? project.releaseV
 ext.globalM2 = "$buildDir/m2"
 ext.publishLocal = project.hasProperty("publishLocal")
 
-def platforms = ["common", "jvm"]
+def platforms = ["common", "jvm", "js", "posix", "darwin"]
 def projectNeedsPlatform(project, platform) {
     def files = project.projectDir.listFiles()
+    def hasPosix = files.any { it.name == "posix" }
+    def hasDarwin = files.any { it.name == "darwin" }
+
+    if (hasPosix && hasDarwin) return false
+
+    if (hasPosix && platform == "darwin") return false
+    if (hasDarwin && platform == "posix") return false
+    if (!hasPosix && !hasDarwin && platform == "darwin") return false
+
     return files.any { it.name == "common" || it.name == platform }
 }
 
 allprojects {
-    group = "com.github.Komputing"
+    group = "com.github.komputing.kbech32"
     version = configuredVersion
     project.ext.hostManager = new HostManager()
     
@@ -35,6 +45,8 @@ allprojects {
 
     apply plugin: "kotlin-multiplatform"
     apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    apply from: rootProject.file("gradle/utility.gradle")
 
     platforms.each { platform ->
         if (projectNeedsPlatform(project, platform)) {

@@ -1,19 +1,19 @@
 package org.komputing.kbech32
 
-sealed class AddressFormatException(message: String): IllegalArgumentException(message) {
+sealed class AddressFormatException(message: String) : IllegalArgumentException(message) {
 
     /**
      * This exception is thrown by [Bech32] when you try to decode data and a character isn't valid.
      * You shouldn't allow the user to proceed in this case.
      */
-    class InvalidCharacter(character: Char, position: Int):
+    class InvalidCharacter(character: Char, position: Int) :
         AddressFormatException("Invalid character '$character' at position $position")
 
     /**
      * This exception is thrown by [Bech32] when you try to decode data and the data isn't of the
      * right size. You shouldn't allow the user to proceed in this case.
      */
-    class InvalidDataLength(message: String): AddressFormatException(message)
+    class InvalidDataLength(message: String) : AddressFormatException(message)
 
     /**
      * This exception is thrown by [Bech32] when you try to decode data and the checksum isn't valid.
